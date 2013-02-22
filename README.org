@@ -1,0 +1,13 @@
+
+* Actions
+** DONE lein new heroku geekteek
+CLOSED: [2013-02-22 ven. 08:20]
+** DONE git init
+CLOSED: [2013-02-22 ven. 08:20]
+** DONE git remote add heroku
+CLOSED: [2013-02-22 ven. 08:20]
+** DONE git remote add git@github:ardumont/geekteek.git
+CLOSED: [2013-02-22 ven. 08:21]
+** DONE foreman start
+CLOSED: [2013-02-22 ven. 08:21]
+** code some more
