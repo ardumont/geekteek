@@ -13,6 +13,9 @@
                  [clj-http                  "0.6.3"]
                  [org.clojure/tools.trace   "0.7.3"]
                  [org.clojure/data.json     "0.2.0"]
+                 [lib-noir                  "0.3.5"]
+                 [hiccup                    "1.0.2"]
+                 [hiccup-bridge             "1.0.0-SNAPSHOT"]
                  [midje                     "1.4.0"]]
   :min-lein-version "2.0.0"
   :plugins [[environ/environ.lein "0.2.1"]]
