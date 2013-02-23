@@ -1,4 +1,4 @@
-(ns geekteek.render-test
+(ns geekteek.view_test
   "Namespace for the html rendering"
   (:use [midje.sweet]
         [geekteek.render]))

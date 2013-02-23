@@ -1,4 +1,4 @@
-(ns geekteek.backend
+(ns geekteek.model
   "Represents the backend"
   (:require [clj-http.client :as c]
             [clavatar.core   :as cl]))

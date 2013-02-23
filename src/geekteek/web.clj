@@ -11,10 +11,10 @@
             [ring.adapter.jetty                   :as jetty]
             [ring.middleware.basic-authentication :as basic]
             [cemerick.drawbridge                  :as drawbridge]
-            [geekteek.middleware                  :as m]
+            [geekteek.middleware                  :as mi]
             [clojure.tools.trace :only [trace]    :as t]
-            [geekteek.render                      :as r]
-            [geekteek.backend                     :as b]))
+            [geekteek.view                        :as v]
+            [geekteek.model                       :as m]))
 
 (def ^{:private true
        :doc "The title of the site"}
@@ -31,12 +31,12 @@
   [status app-data]
   {:status status
    :headers {"Content-Type" "text/html"}
-   :body (r/render-main-page app-data)})
+   :body (v/render-main-page app-data)})
 
 (defroutes app
   ;; repl connection
   (ANY "/repl" {:as req}
-       (m/drawbridge req))
+       (mi/drawbridge req))
 
   (GET "/about" []
        (response
@@ -62,7 +62,7 @@
          :menu  menu
          :form? true
          :theme :spacelab
-         :data  (b/data)}))
+         :data  (m/data)}))
 
   ;; post submission to this main page
   (POST "/" {:as req}
@@ -72,7 +72,7 @@
               :form? true
               :prefs (get-in req [:form-params "prefs"])
               :theme (get-in req [:form-params "theme"])
-              :data  (b/data)}))
+              :data  (m/data)}))
 
   ;; serve static resources
   (resources "/")
@@ -87,9 +87,9 @@
         ;; TODO: heroku config:add SESSION_SECRET=$RANDOM_16_CHARS
         store (cookie/cookie-store {:key (env :session-secret)})]
     (jetty/run-jetty (-> #'app
-                         ((if (env :production) m/wrap-error-page trace/wrap-stacktrace))
+                         ((if (env :production) mi/wrap-error-page trace/wrap-stacktrace))
                          (site {:session {:store store}})
-                         m/wrap-request-logging)
+                         mi/wrap-request-logging)
                      {:port port :join? false})))
 
 ;; For interactive development:

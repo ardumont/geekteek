@@ -1,4 +1,4 @@
-(ns geekteek.render
+(ns geekteek.view
   "Namespace for the html rendering"
   (:require [compojure.core :refer [defroutes GET PUT POST DELETE ANY]]
             [compojure.handler :refer [site]]
