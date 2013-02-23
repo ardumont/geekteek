@@ -1,4 +1,4 @@
-(ns geekteek.web
+(ns geekteek.controller
   (:require [compojure.core    :refer [defroutes GET PUT POST DELETE ANY]]
             [compojure.handler :refer [site]]
             [compojure.route   :refer [resources]]
@@ -72,7 +72,7 @@
               :form? true
               :prefs (get-in req [:form-params "prefs"])
               :theme (get-in req [:form-params "theme"])
-              :data  (m/data)}))
+              :data  (m/data-people)}))
 
   ;; serve static resources
   (resources "/")
