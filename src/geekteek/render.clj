@@ -14,6 +14,7 @@
             [doric.core          :as d]
             [hiccup.core         :as h]
             [hiccup.page         :as hp]
+            [hiccup-bridge.core  :as hbc]
             [geekteek.backend    :as b]))
 
 (defn- render-headers
@@ -51,10 +52,13 @@
 
 (defn render-data-as-html-table
   [data]
-  (d/table
-   ^{:format d/html}
-   [:NOM :PRENOM :EMAIL :LIKE1 :LIKE2 :LIKE3 :HATE1 :HATE2 :VILLE]
-   data))
+  (->> data
+       (map
+        (fn [{:keys [gravatar] :as m}]
+          (assoc m :gravatar (h/html [:img {:src gravatar}]))))
+       (d/table
+        ^{:format d/html}
+        [:gravatar :NOM :PRENOM :EMAIL :LIKE1 :LIKE2 :LIKE3 :HATE1 :HATE2 :VILLE])))
 
 (defn- render-navigation-bar
   "Render the main navigation bar - at the top"

@@ -17,6 +17,7 @@
                  [hiccup                    "1.0.2"]
                  [hiccup-bridge             "1.0.0-SNAPSHOT"]
                  [doric                     "0.7.0"]
+                 [clavatar                  "0.2.1"]
                  [midje                     "1.4.0"]]
   :min-lein-version "2.0.0"
   :plugins [[environ/environ.lein "0.2.1"]]

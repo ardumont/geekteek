@@ -1,10 +1,13 @@
 (ns geekteek.backend
   "Represents the backend"
-  (:require [clj-http.client :as c]))
+  (:require [clj-http.client :as c]
+            [clavatar.core   :as cl]))
 
 (defn data
   "Retrieve the data from the backend"
   []
-  (-> "http://code-story.net/data/codestory2013.json"
-      (c/get {:as :json})
-      :body))
+  (->> (c/get "http://code-story.net/data/codestory2013.json" {:as :json})
+       :body
+       (map
+        (fn [m]
+          (assoc m :gravatar (-> m :EMAIL cl/gravatar))))))
