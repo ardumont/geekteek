@@ -9,5 +9,8 @@
   (->> (c/get "http://code-story.net/data/codestory2013.json" {:as :json})
        :body
        (map
-        (fn [m]
-          (assoc m :gravatar (-> m :EMAIL cl/gravatar))))))
+        (fn [{:keys [NOM PRENOM EMAIL] :as m}]
+          (-> m
+              (assoc :gravatar (cl/gravatar EMAIL))
+              (assoc :NOM (str NOM " " PRENOM))
+              (dissoc :PRENOM))))))

@@ -79,7 +79,7 @@
           (assoc m :gravatar (h/html [:img {:src gravatar}]))))
        (d/table
         ^{:format d/html}
-        [:gravatar :NOM :PRENOM :EMAIL :LIKE1 :LIKE2 :LIKE3 :HATE1 :HATE2 :VILLE])))
+        [:gravatar :NOM :EMAIL :LIKE1 :LIKE2 :LIKE3 :HATE1 :HATE2 :VILLE])))
 
 (defn- render-navigation-bar
   "Render the main navigation bar - at the top"
