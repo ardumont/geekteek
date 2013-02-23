@@ -81,7 +81,7 @@
            (assoc m :gravatar (h/html [:img {:src gravatar}]))))
         (d/table
          ^{:format d/html}
-         [:gravatar :NOM :EMAIL :LIKE1 :LIKE2 :LIKE3 :HATE1 :HATE2 :VILLE]))
+         [:gravatar :NOM :LIKE1 :LIKE2 :LIKE3 :HATE1 :HATE2 :VILLE]))
    ;; reworking css
    "<table>"
    "<table class=\"table table-hover table-condensed table-striped table-bordered\">"))

@@ -13,4 +13,5 @@
           (-> m
               (assoc :gravatar (cl/gravatar EMAIL))
               (assoc :NOM (str NOM " " PRENOM))
-              (dissoc :PRENOM))))))
+              (dissoc :PRENOM)
+              (dissoc :EMAIL))))))
