@@ -44,7 +44,7 @@
         {:title title
          :menu  menu
          :theme :spacelab
-         :data  [:a {:href "http://adumont.fr/blog/about/"} "About me!"]}))
+         :data  (m/data-about)}))
 
   (GET "/contact" []
        (response
@@ -52,7 +52,7 @@
         {:title title
          :menu  menu
          :theme :spacelab
-         :data  [:a {:href "http://adumont.fr/blog/"} "Contact me!"]}))
+         :data  (m/data-contact)}))
 
   ;; Main page
   (GET "/" []
@@ -62,7 +62,7 @@
          :menu  menu
          :form? true
          :theme :spacelab
-         :data  (m/data)}))
+         :data  (m/data-people)}))
 
   ;; post submission to this main page
   (POST "/" {:as req}
