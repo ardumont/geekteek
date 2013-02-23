@@ -15,8 +15,7 @@
             [hiccup.core         :as h]
             [hiccup.page         :as hp]
             [hiccup-bridge.core  :as hbc]
-            [clojure.string      :as s]
-            [geekteek.backend    :as b]))
+            [clojure.string      :as s]))
 
 (def themes
   [:amelia
@@ -107,35 +106,56 @@
   [menu]
   (render-menu :ul.nav.nav-list menu))
 
+(defn- app-state->kv
+  "Return the app state as key value pairs"
+  [{:keys [prefs theme] :as app-state}]
+  (into {}
+        (filter identity
+                [(when theme ["theme" (name theme)])])))
+
+(defn- app-state->hidden
+  "Convert an app-state to hidden input for a form."
+  [app-state]
+  (->> (app-state->kv app-state)
+       (map (fn [[k v]]
+              [:input {:type "hidden"
+                       :name k
+                       :value v}]))
+       (cons :div)
+       vec))
+
 (defn render-main-page
   "Render the main page"
-  []
+  [{:keys [data form? menu] :as app-state}]
   (hp/html5
    [:html {:lang "en"}
-    (render-head {:theme :spacelab} "GeekTeek")
+    (render-head app-state "GeekTeek")
 
     [:body
-     (render-navigation-bar {"#"        "Home"
-                             "#about"   "About"
-                             "#contact" "Contact"})
+     (render-navigation-bar menu)
 
      [:div.container-fluid
       [:div.row-fluid
 
        [:div.span3
         [:div.well.sidebar-nav
-         (render-left-menu {"#"        "Home"
-                            "#about"   "About"
-                            "#contact" "Contact"})]]
+         (render-left-menu menu)]]
 
        [:div.span9
-        [:form.form-inline {:method "get"}
-         [:input.input-large {:placeholder "type what you like"
-                              :type "text"
-                              :value ""
-                              :name "pref"}]
-         [:button.btn {:type "submit"} "Save"]]
-        (render-data-as-html-table (b/data))]]
+
+        (if form?
+          ;; data submission
+          [:form.form-inline {:method "post"}
+           (app-state->hidden app-state)
+
+           [:input.input-large {:placeholder "Preferences"
+                                :type "text"
+                                :value (:prefs app-state)
+                                :name "prefs"}]
+           [:button.btn {:type "submit"} "Save"]])
+
+        ;; data rendering
+        (render-data-as-html-table data)]]
 
       [:hr]
       [:footer [:p "© GeekTeek 2013"]]]

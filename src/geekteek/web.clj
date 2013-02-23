@@ -12,25 +12,58 @@
             [ring.middleware.basic-authentication :as basic]
             [cemerick.drawbridge                  :as drawbridge]
             [geekteek.middleware                  :as m]
-            [geekteek.render                      :as r]))
+            [clojure.tools.trace :only [trace]    :as t]
+            [geekteek.render                      :as r]
+            [geekteek.backend                     :as b]))
+
+(def ^{:private true
+       :doc "The list of links for the menu"}
+  menu {"#"        "Home"
+        "/about"   "About"
+        "/contact" "Contact"})
+
+(defn- response
+  "A function to factorize the client response"
+  [status body]
+  {:status status
+   :headers {"Content-Type" "text/html"}
+   :body (r/render-main-page body)})
 
 (defroutes app
   ;; repl connection
   (ANY "/repl" {:as req}
        (m/drawbridge req))
 
+  (GET "/about" []
+       (response
+        200
+        {:menu menu
+         :theme :spacelab
+         :data "http://adumont.fr/blog"}))
+
+  (GET "/contact" []
+       (response
+        200
+        {:menu menu
+         :theme :spacelab
+         :data "http://adumont.fr/blog"}))
+
   ;; Main page
   (GET "/" []
-       {:status 200
-        :headers {"Content-Type" "text/html"}
-        :body (r/render-main-page)})
+       (response
+        200
+        {:menu menu
+         :form? true
+         :theme :spacelab
+         :data (b/data)}))
 
   ;; post submission to this main page
   (POST "/" {:as req}
-        (let [app-state req]
-          {:status 201
-           :headers {"Content-Type" "text/html"}
-           :body (r/render-main-page app-state)}))
+        (response 201 {:menu menu
+                       :form? true
+                       :prefs (get-in req [:form-params "prefs"])
+                       :theme (get-in req [:form-params "theme"])
+                       :data  (b/data)}))
 
   ;; serve static resources
   (resources "/")
@@ -40,6 +73,7 @@
        (route/not-found (slurp (io/resource "404.html")))))
 
 (defn -main [& [port]]
+  "Main entry point"
   (let [port (Integer. (or port (env :port) 5000))
         ;; TODO: heroku config:add SESSION_SECRET=$RANDOM_16_CHARS
         store (cookie/cookie-store {:key (env :session-secret)})]
