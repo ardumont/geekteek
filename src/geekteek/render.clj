@@ -11,7 +11,7 @@
             [ring.middleware.basic-authentication :as basic]
             [cemerick.drawbridge :as drawbridge]
             [environ.core :refer [env]]
-#_            [doric.core          :as doric]
+            [doric.core          :as d]
             [hiccup.core         :as h]
             [hiccup.page         :as hp]
             [geekteek.backend    :as b]))
@@ -51,6 +51,12 @@
           render-menu
           (cons class)
           vec)))
+
+(defn render-data-as-html-table
+  [data]
+  (-> data
+      (with-meta {:format d/html})
+      d/table))
 
 (defn- render-navigation-bar
   "Render the main navigation bar - at the top"
@@ -100,7 +106,7 @@
                               :value ""
                               :name "pref"}]
          [:button.btn {:type "submit"} "Save"]]
-        (b/data)]
+        (render-data-as-html-table (b/data))]
        "<!-- span9 -->"]
       "<!-- row-fluid -->"
 

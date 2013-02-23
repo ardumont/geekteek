@@ -5,4 +5,6 @@
 (defn data
   "Retrieve the data from the backend"
   []
-  (c/get "http://code-story.net/data/codestory2013.json" {:as :json}))
+  (-> "http://code-story.net/data/codestory2013.json"
+      (c/get {:as :json})
+      :body))
