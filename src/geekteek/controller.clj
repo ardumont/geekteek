@@ -67,12 +67,14 @@
   ;; post submission to this main page
   (POST "/" {:as req}
         (response
-         201 {:title title
-              :menu  menu
-              :form? true
-              :prefs (get-in req [:form-params "prefs"])
-              :theme (get-in req [:form-params "theme"])
-              :data  (m/data-people)}))
+         201
+         (let [prefs (get-in req [:form-params "prefs"])]
+           {:title title
+            :menu  menu
+            :form? true
+            :prefs prefs
+            :theme (get-in req [:form-params "theme"])
+            :data  (m/data-people prefs)})))
 
   ;; serve static resources
   (resources "/")
