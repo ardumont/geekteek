@@ -1,7 +1,8 @@
 (ns geekteek.model
   "Represents the backend"
   (:require [clj-http.client :as c]
-            [clavatar.core   :as cl]))
+            [clavatar.core   :as cl]
+            [clojure.string  :as s]))
 
 (defn data-people
   "Retrieve the data from the backend (json flux from code story)"
@@ -18,9 +19,9 @@
   ([prefs]
      (->> (data-people)
           (filter (fn [{:keys [LIKE1 LIKE2 LIKE3]}]
-                    (or (= prefs LIKE1)
-                        (= prefs LIKE2)
-                        (= prefs LIKE3)))))))
+                    (->> [LIKE1 LIKE2 LIKE3]
+                         (map s/lower-case)
+                         (some #{(s/lower-case prefs)})))))))
 
 (defn data-about
   "The about data"
