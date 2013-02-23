@@ -44,24 +44,24 @@
   [:head
    [:meta {:charset "utf-8"}]
    [:title title]
-   [:meta {:content "width=device-width, initial-scale=1.0", :name "viewport"}]
-   [:meta {:content "Geetik, Meetic for Geeks!", :name "description"}]
-   [:meta {:content "ardumont", :name "author"}]
+   [:meta {:content "width=device-width initial-scale=1.0" :name "viewport"}]
+   [:meta {:content "Geetik Meetic for Geeks!" :name "description"}]
+   [:meta {:content "ardumont" :name "author"}]
    "<!-- Styles -->"
-   [:link {:media "screen", :rel "stylesheet", :href (theme-css-url app-state)}]
+   [:link {:media "screen" :rel "stylesheet" :href (theme-css-url app-state)}]
    [:style "\n  body {\n                padding-top: 60px; /* 60px to make the container go all\n                                 ; the way to the bottom of the topbar\n; */\n        }\n  "]
-   [:link {:rel "stylesheet", :href "boostrap/css/bootstrap-responsive.css"}]
-   "<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->"
+   [:link {:rel "stylesheet" :href "boostrap/css/bootstrap-responsive.css"}]
+   "<!-- HTML5 shim for IE6-8 support of HTML5 elements -->"
    "<!-- [if lt IE 9]>\n  <script src=\"http://html5shim.googlecode.com/svn/trunk/html5.js\"></script>\n  <! [endif]-->"
    "<!-- Fav and touch icons -->"
-   [:link {:href "boostrap/ico/apple-touch-icon-144-precomposed.png", :sizes "144x144", :rel "apple-touch-icon-precomposed"}]
-   [:link {:href "boostrap/ico/apple-touch-icon-114-precomposed.png", :sizes "114x114", :rel "apple-touch-icon-precomposed"}]
-   [:link {:href "boostrap/ico/apple-touch-icon-72-precomposed.png", :sizes "72x72", :rel "apple-touch-icon-precomposed"}]
-   [:link {:href "boostrap/ico/apple-touch-icon-57-precomposed.png", :rel "apple-touch-icon-precomposed"}]
-   [:link {:href "boostrap/ico/favicon.png", :rel "shortcut icon"}]])
+   [:link {:href "boostrap/ico/apple-touch-icon-144-precomposed.png" :sizes "144x144" :rel "apple-touch-icon-precomposed"}]
+   [:link {:href "boostrap/ico/apple-touch-icon-114-precomposed.png" :sizes "114x114" :rel "apple-touch-icon-precomposed"}]
+   [:link {:href "boostrap/ico/apple-touch-icon-72-precomposed.png" :sizes "72x72" :rel "apple-touch-icon-precomposed"}]
+   [:link {:href "boostrap/ico/apple-touch-icon-57-precomposed.png" :rel "apple-touch-icon-precomposed"}]
+   [:link {:href "boostrap/ico/favicon.png" :rel "shortcut icon"}]])
 
 (defn render-menu
-  "Given a map of links, render a compojure list of menu entries."
+  "Given a map of links render a compojure list of menu entries."
   [class entries]
   (->> entries
        keys
@@ -87,7 +87,7 @@
   [:div.navbar.navbar-inverse.navbar-fixed-top
    [:div.navbar-inner
     [:div.container
-     [:a.btn.btn-navbar {:data-target ".nav-collapse", :data-toggle "collapse"}
+     [:a.btn.btn-navbar {:data-target ".nav-collapse" :data-toggle "collapse"}
       [:span.icon-bar]
       [:span.icon-bar]
       [:span.icon-bar]]
