@@ -18,16 +18,16 @@
 
 (def ^{:private true
        :doc "The list of links for the menu"}
-  menu {"#"        "Home"
+  menu {"/"        "Home"
         "/about"   "About"
         "/contact" "Contact"})
 
 (defn- response
   "A function to factorize the client response"
-  [status body]
+  [status app-data]
   {:status status
    :headers {"Content-Type" "text/html"}
-   :body (r/render-main-page body)})
+   :body (r/render-main-page app-data)})
 
 (defroutes app
   ;; repl connection
@@ -37,33 +37,34 @@
   (GET "/about" []
        (response
         200
-        {:menu menu
+        {:menu  menu
          :theme :spacelab
-         :data "http://adumont.fr/blog"}))
+         :data  [:a {:href "http://adumont.fr/blog/about/"}]}))
 
   (GET "/contact" []
        (response
         200
-        {:menu menu
+        {:menu  menu
          :theme :spacelab
-         :data "http://adumont.fr/blog"}))
+         :data  [:a {:href "http://adumont.fr/blog/"}]}))
 
   ;; Main page
   (GET "/" []
        (response
         200
-        {:menu menu
+        {:menu  menu
          :form? true
          :theme :spacelab
-         :data (b/data)}))
+         :data  (b/data)}))
 
   ;; post submission to this main page
   (POST "/" {:as req}
-        (response 201 {:menu menu
-                       :form? true
-                       :prefs (get-in req [:form-params "prefs"])
-                       :theme (get-in req [:form-params "theme"])
-                       :data  (b/data)}))
+        (response
+         201 {:menu  menu
+              :form? true
+              :prefs (get-in req [:form-params "prefs"])
+              :theme (get-in req [:form-params "theme"])
+              :data  (b/data)}))
 
   ;; serve static resources
   (resources "/")

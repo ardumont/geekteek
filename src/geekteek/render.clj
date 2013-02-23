@@ -40,7 +40,7 @@
 
 (defn- render-head
   "Render the headers"
-  [app-state title]
+  [app-data title]
   [:head
    [:meta {:charset "utf-8"}]
    [:title title]
@@ -48,7 +48,7 @@
    [:meta {:content "Geetik Meetic for Geeks!" :name "description"}]
    [:meta {:content "ardumont" :name "author"}]
    "<!-- Styles -->"
-   [:link {:media "screen" :rel "stylesheet" :href (theme-css-url app-state)}]
+   [:link {:media "screen" :rel "stylesheet" :href (theme-css-url app-data)}]
    [:style "\n  body {\n                padding-top: 60px; /* 60px to make the container go all\n                                 ; the way to the bottom of the topbar\n; */\n        }\n  "]
    [:link {:rel "stylesheet" :href "boostrap/css/bootstrap-responsive.css"}]
    "<!-- HTML5 shim for IE6-8 support of HTML5 elements -->"
@@ -106,17 +106,17 @@
   [menu]
   (render-menu :ul.nav.nav-list menu))
 
-(defn- app-state->kv
+(defn- app-data->kv
   "Return the app state as key value pairs"
-  [{:keys [prefs theme] :as app-state}]
+  [{:keys [prefs theme] :as app-data}]
   (into {}
         (filter identity
                 [(when theme ["theme" (name theme)])])))
 
-(defn- app-state->hidden
-  "Convert an app-state to hidden input for a form."
-  [app-state]
-  (->> (app-state->kv app-state)
+(defn- app-data->hidden
+  "Convert an app-data to hidden input for a form."
+  [app-data]
+  (->> (app-data->kv app-data)
        (map (fn [[k v]]
               [:input {:type "hidden"
                        :name k
@@ -126,10 +126,10 @@
 
 (defn render-main-page
   "Render the main page"
-  [{:keys [data form? menu] :as app-state}]
+  [{:keys [data form? menu prefs] :as app-data}]
   (hp/html5
    [:html {:lang "en"}
-    (render-head app-state "GeekTeek")
+    (render-head app-data "GeekTeek")
 
     [:body
      (render-navigation-bar menu)
@@ -144,18 +144,17 @@
        [:div.span9
 
         (if form?
-          ;; data submission
-          [:form.form-inline {:method "post"}
-           (app-state->hidden app-state)
+          (list
+            [:form.form-inline {:method "post"}
+             (app-data->hidden app-data)
 
-           [:input.input-large {:placeholder "Preferences"
-                                :type "text"
-                                :value (:prefs app-state)
-                                :name "prefs"}]
-           [:button.btn {:type "submit"} "Save"]])
-
-        ;; data rendering
-        (render-data-as-html-table data)]]
+             [:input.input-large {:placeholder "Preferences"
+                                  :type "text"
+                                  :value prefs
+                                  :name "prefs"}]
+             [:button.btn {:type "submit"} "Save"]]
+            (render-data-as-html-table data))
+          data)]]
 
       [:hr]
       [:footer [:p "© GeekTeek 2013"]]]
