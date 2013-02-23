@@ -1,6 +1,7 @@
 (ns geekteek.web
   (:require [compojure.core    :refer [defroutes GET PUT POST DELETE ANY]]
             [compojure.handler :refer [site]]
+            [compojure.route   :refer [resources]]
             [environ.core      :refer [env]]
             [compojure.route                      :as route]
             [clojure.java.io                      :as io]
@@ -15,11 +16,12 @@
 
 (defroutes app
   (ANY "/repl" {:as req}
-       (drawbridge req))
+       (m/drawbridge req))
   (GET "/" []
        {:status 200
         :headers {"Content-Type" "text/html"}
         :body (r/render-main-page)})
+  (resources "/")
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 
@@ -34,5 +36,5 @@
                      {:port port :join? false})))
 
 ;; For interactive development:
- (.stop server)
- (def server (-main))
+;; (.stop server)
+;; (def server (-main))
