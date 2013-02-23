@@ -37,27 +37,33 @@
    [:link {:href "boostrap/ico/apple-touch-icon-57-precomposed.png", :rel "apple-touch-icon-precomposed"}]
    [:link {:href "boostrap/ico/favicon.png", :rel "shortcut icon"}]])
 
+(defn render-menu
+  "Given a map of links, render a compojure list of menu entries."
+  [entries]
+  (map
+   (fn [link]
+     [:li [:a {:href link} (entries link)]])
+   (keys entries)))
+
 (defn- render-navigation-bar
   "Render the main navigation bar - at the top"
-  []
+  [menu]
   [:div.navbar.navbar-inverse.navbar-fixed-top
-      [:div.navbar-inner
-       [:div.container
-        [:a.btn.btn-navbar {:data-target ".nav-collapse", :data-toggle "collapse"}
-         [:span.icon-bar]
-         [:span.icon-bar]
-         [:span.icon-bar]]
-        [:a.brand {:href "#"} "GeekTeek"]
-        [:div.nav-collapse.collapse
-         [:ul.nav
-          [:li.active [:a {:href "#"} "Home"]]
-          [:li        [:a {:href "#about"} "About"]]
-          [:li        [:a {:href "#contact"} "Contact"]]]]
-        "<!--/.nav-collapse -->"]]])
+   [:div.navbar-inner
+    [:div.container
+     [:a.btn.btn-navbar {:data-target ".nav-collapse", :data-toggle "collapse"}
+      [:span.icon-bar]
+      [:span.icon-bar]
+      [:span.icon-bar]]
+     [:a.brand {:href "#"} "GeekTeek"]
+     [:div.nav-collapse.collapse
+      (vec (cons :ul.nav (render-menu menu)))]
+     "<!--/.nav-collapse -->"]]])
 
 (defn- render-left-menu
   "Render the left menu"
-  [])
+  [menu]
+  (vec (cons :ul.nav.nav-list (render-menu menu))))
 
 (defn render-main-page
   "Render the main page"
@@ -67,15 +73,17 @@
     (render-headers)
 
     [:body
-     (render-navigation-bar)
+     (render-navigation-bar {"#"        "Home"
+                             "#about"   "About"
+                             "#contact" "Contact"})
 
      [:div.container-fluid
       [:div.row-fluid
        [:div.span3
         [:div.well.sidebar-nav
-         [:ul.nav.nav-list
-          [:li.nav-header "Menu"]
-          (render-left-menu)]]
+         (render-left-menu {"#"        "Home"
+                            "#about"   "About"
+                            "#contact" "Contact"})]
         "<!--/.well -->"]
        "<!--/span-->"
        [:div.span9
