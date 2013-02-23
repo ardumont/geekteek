@@ -104,7 +104,9 @@
 (defn- render-left-menu
   "Render the left menu"
   [menu]
-  (render-menu :ul.nav.nav-list menu))
+  [:div.span3
+   [:div.well.sidebar-nav
+    (render-menu :ul.nav.nav-list menu)]])
 
 (defn- app-data->kv
   "Return the app state as key value pairs"
@@ -136,14 +138,12 @@
 
      [:div.container-fluid
       [:div.row-fluid
+       (render-left-menu menu)
 
-       [:div.span3
-        [:div.well.sidebar-nav
-         (render-left-menu menu)]]
-
+       ;; data
        [:div.span9
-
         (if form?
+          ;; data submission
           (list
             [:form.form-inline {:method "post"}
              (app-data->hidden app-data)
@@ -154,10 +154,11 @@
                                   :name "prefs"}]
              [:button.btn {:type "submit"} "Save"]]
             (render-data-as-html-table data))
+          ;; simply display data
           data)]]
 
       [:hr]
-      [:footer [:p "© GeekTeek 2013"]]]
+      [:footer [:p "&copy; GeekTeek 2013"]]]
 
      "<!-- javascript\n  ==================================================-->"
      "<!-- Placed at the end of the document so the pages load faster -->"
