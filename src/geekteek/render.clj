@@ -15,6 +15,7 @@
             [hiccup.core         :as h]
             [hiccup.page         :as hp]
             [hiccup-bridge.core  :as hbc]
+            [clojure.string      :as s]
             [geekteek.backend    :as b]))
 
 (def themes
@@ -73,13 +74,18 @@
 
 (defn render-data-as-html-table
   [data]
-  (->> data
-       (map
-        (fn [{:keys [gravatar] :as m}]
-          (assoc m :gravatar (h/html [:img {:src gravatar}]))))
-       (d/table
-        ^{:format d/html}
-        [:gravatar :NOM :EMAIL :LIKE1 :LIKE2 :LIKE3 :HATE1 :HATE2 :VILLE])))
+  (s/replace-first
+   ;; data working
+   (->> data
+        (map
+         (fn [{:keys [gravatar] :as m}]
+           (assoc m :gravatar (h/html [:img {:src gravatar}]))))
+        (d/table
+         ^{:format d/html}
+         [:gravatar :NOM :EMAIL :LIKE1 :LIKE2 :LIKE3 :HATE1 :HATE2 :VILLE]))
+   ;; reworking css
+   "<table>"
+   "<table class=\"table table-hover table-condensed table-striped table-bordered\">"))
 
 (defn- render-navigation-bar
   "Render the main navigation bar - at the top"
