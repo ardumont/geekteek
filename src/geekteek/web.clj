@@ -44,7 +44,7 @@
         {:title title
          :menu  menu
          :theme :spacelab
-         :data  [:a {:href "http://adumont.fr/blog/about/"}]}))
+         :data  [:a {:href "http://adumont.fr/blog/about/"} "About me!"]}))
 
   (GET "/contact" []
        (response
@@ -52,7 +52,7 @@
         {:title title
          :menu  menu
          :theme :spacelab
-         :data  [:a {:href "http://adumont.fr/blog/"}]}))
+         :data  [:a {:href "http://adumont.fr/blog/"} "Contact me!"]}))
 
   ;; Main page
   (GET "/" []

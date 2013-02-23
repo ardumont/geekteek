@@ -155,7 +155,7 @@
              [:button.btn {:type "submit"} "Save"]]
             (render-data-as-html-table data))
           ;; simply display data
-          data)]]
+          (h/html data))]]
 
       [:hr]
       [:footer [:p (str "&copy; " title " 2013")]]]
