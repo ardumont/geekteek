@@ -40,7 +40,7 @@
 
 (defn- render-head
   "Render the headers"
-  [app-data title]
+  [{:keys [title] :as app-data}]
   [:head
    [:meta {:charset "utf-8"}]
    [:title title]
@@ -88,7 +88,7 @@
 
 (defn- render-navigation-bar
   "Render the main navigation bar - at the top"
-  [menu]
+  [{:keys [menu title]}]
   [:div.navbar.navbar-inverse.navbar-fixed-top
    [:div.navbar-inner
     [:div.container
@@ -96,7 +96,7 @@
       [:span.icon-bar]
       [:span.icon-bar]
       [:span.icon-bar]]
-     [:a.brand {:href "#"} "GeekTeek"]
+     [:a.brand {:href "#"} title]
      [:div.nav-collapse.collapse
       (render-menu :ul.nav menu)]
      "<!--/.nav-collapse -->"]]])
@@ -128,13 +128,13 @@
 
 (defn render-main-page
   "Render the main page"
-  [{:keys [data form? menu prefs] :as app-data}]
+  [{:keys [data form? menu prefs title] :as app-data}]
   (hp/html5
    [:html {:lang "en"}
-    (render-head app-data "GeekTeek")
+    (render-head app-data)
 
     [:body
-     (render-navigation-bar menu)
+     (render-navigation-bar app-data)
 
      [:div.container-fluid
       [:div.row-fluid
@@ -158,7 +158,7 @@
           data)]]
 
       [:hr]
-      [:footer [:p "&copy; GeekTeek 2013"]]]
+      [:footer [:p (str "&copy; " title " 2013")]]]
 
      "<!-- javascript\n  ==================================================-->"
      "<!-- Placed at the end of the document so the pages load faster -->"

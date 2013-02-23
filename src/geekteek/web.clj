@@ -17,6 +17,10 @@
             [geekteek.backend                     :as b]))
 
 (def ^{:private true
+       :doc "The title of the site"}
+  title "GeeTeek")
+
+(def ^{:private true
        :doc "The list of links for the menu"}
   menu {"/"        "Home"
         "/about"   "About"
@@ -37,14 +41,16 @@
   (GET "/about" []
        (response
         200
-        {:menu  menu
+        {:title title
+         :menu  menu
          :theme :spacelab
          :data  [:a {:href "http://adumont.fr/blog/about/"}]}))
 
   (GET "/contact" []
        (response
         200
-        {:menu  menu
+        {:title title
+         :menu  menu
          :theme :spacelab
          :data  [:a {:href "http://adumont.fr/blog/"}]}))
 
@@ -52,7 +58,8 @@
   (GET "/" []
        (response
         200
-        {:menu  menu
+        {:title title
+         :menu  menu
          :form? true
          :theme :spacelab
          :data  (b/data)}))
@@ -60,7 +67,8 @@
   ;; post submission to this main page
   (POST "/" {:as req}
         (response
-         201 {:menu  menu
+         201 {:title title
+              :menu  menu
               :form? true
               :prefs (get-in req [:form-params "prefs"])
               :theme (get-in req [:form-params "theme"])
