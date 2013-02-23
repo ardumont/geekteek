@@ -10,7 +10,8 @@
             [ring.adapter.jetty                   :as jetty]
             [ring.middleware.basic-authentication :as basic]
             [cemerick.drawbridge                  :as drawbridge]
-            [geekteek.middleware                  :as m]))
+            [geekteek.middleware                  :as m]
+            [geekteek.render                      :as r]))
 
 (defroutes app
   (ANY "/repl" {:as req}
@@ -18,7 +19,7 @@
   (GET "/" []
        {:status 200
         :headers {"Content-Type" "text/html"}
-        :body "Hello world!"})
+        :body (r/render-main-page)})
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 
