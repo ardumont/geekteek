@@ -1,7 +1,7 @@
 (defproject geekteek "1.0.0-SNAPSHOT"
-  :description "FIXME: write description"
+  :description "GeekTeek - Meetic for geeks!"
   :url "http://geekteek.herokuapp.com"
-  :license {:name "FIXME: choose"
+  :license {:name "Eclipse license"
             :url "http://example.com/FIXME"}
   :dependencies [[org.clojure/clojure       "1.4.0"]
                  [compojure                 "1.1.3"]
