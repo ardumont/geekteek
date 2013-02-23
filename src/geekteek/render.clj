@@ -51,9 +51,10 @@
 
 (defn render-data-as-html-table
   [data]
-  (-> data
-      (with-meta {:format d/html})
-      d/table))
+  (d/table
+   ^{:format d/html}
+   [:NOM :PRENOM :EMAIL :LIKE1 :LIKE2 :LIKE3 :HATE1 :HATE2 :VILLE]
+   data))
 
 (defn- render-navigation-bar
   "Render the main navigation bar - at the top"
