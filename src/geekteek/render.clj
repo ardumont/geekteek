@@ -39,11 +39,17 @@
 
 (defn render-menu
   "Given a map of links, render a compojure list of menu entries."
-  [entries]
-  (map
-   (fn [link]
-     [:li [:a {:href link} (entries link)]])
-   (keys entries)))
+  ([entries]
+     (->> entries
+          keys
+          (map
+           (fn [link]
+             [:li [:a {:href link} (entries link)]]))))
+  ([class entries]
+     (->> entries
+          render-menu
+          (cons class)
+          vec)))
 
 (defn- render-navigation-bar
   "Render the main navigation bar - at the top"
@@ -57,13 +63,13 @@
       [:span.icon-bar]]
      [:a.brand {:href "#"} "GeekTeek"]
      [:div.nav-collapse.collapse
-      (vec (cons :ul.nav (render-menu menu)))]
+      (render-menu :ul.nav menu)]
      "<!--/.nav-collapse -->"]]])
 
 (defn- render-left-menu
   "Render the left menu"
   [menu]
-  (vec (cons :ul.nav.nav-list (render-menu menu))))
+  (render-menu :ul.nav.nav-list menu))
 
 (defn render-main-page
   "Render the main page"
