@@ -13,7 +13,8 @@
             [environ.core :refer [env]]
 #_            [doric.core          :as doric]
             [hiccup.core         :as h]
-            [hiccup.page         :as hp]))
+            [hiccup.page         :as hp]
+            [geekteek.backend    :as b]))
 
 (defn- render-headers
   "Render the headers"
@@ -94,15 +95,12 @@
        "<!--/span-->"
        [:div.span9
         [:form.form-inline {:method "get"}
-         [:input {:type "hidden"
-                  :name "pseudo"
-                  :value "current-pseudo"}]
-         [:input.input-large {:placeholder "pseudo"
+         [:input.input-large {:placeholder "type what you like"
                               :type "text"
                               :value ""
-                              :name "pseudo"}]
+                              :name "pref"}]
          [:button.btn {:type "submit"} "Save"]]
-        "Some data to display"]
+        (b/data)]
        "<!-- span9 -->"]
       "<!-- row-fluid -->"
 
