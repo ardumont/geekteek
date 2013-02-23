@@ -17,17 +17,38 @@
             [hiccup-bridge.core  :as hbc]
             [geekteek.backend    :as b]))
 
-(defn- render-headers
+(def themes
+  [:amelia
+   :cerulean
+   :cosmo
+   :cyborg
+   :journal
+   :readable
+   :simplex
+   :slate
+   :spacelab
+   :spruce
+   :superhero
+   :united])
+
+(defn- theme-css-url
+  "Return the url for the theme css"
+  [{:keys [theme]}]
+  (if theme
+    (str "bootstrap/css/custom/" (name theme) "/bootstrap.min.css")
+    "bootstrap/css/bootstrap.min.css"))
+
+(defn- render-head
   "Render the headers"
-  []
+  [app-state title]
   [:head
    [:meta {:charset "utf-8"}]
-   [:title "GeekTeek"]
+   [:title title]
    [:meta {:content "width=device-width, initial-scale=1.0", :name "viewport"}]
    [:meta {:content "Geetik, Meetic for Geeks!", :name "description"}]
    [:meta {:content "ardumont", :name "author"}]
-   "<!-- Le styles -->"
-   [:link {:media "screen", :rel "stylesheet", :href "bootstrap/css/bootstrap.min.css"}]
+   "<!-- Styles -->"
+   [:link {:media "screen", :rel "stylesheet", :href (theme-css-url app-state)}]
    [:style "\n  body {\n                padding-top: 60px; /* 60px to make the container go all\n                                 ; the way to the bottom of the topbar\n; */\n        }\n  "]
    [:link {:rel "stylesheet", :href "boostrap/css/bootstrap-responsive.css"}]
    "<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->"
@@ -85,7 +106,7 @@
   []
   (hp/html5
    [:html {:lang "en"}
-    (render-headers)
+    (render-head {:theme :spacelab} "GeekTeek")
 
     [:body
      (render-navigation-bar {"#"        "Home"
@@ -111,7 +132,7 @@
         (render-data-as-html-table (b/data))]]
 
       [:hr]
-      [:footer [:p "© GeekTeek 2013"]]] "<!-- container-fluid -->"
+      [:footer [:p "© GeekTeek 2013"]]]
 
      "<!-- javascript\n  ==================================================-->"
      "<!-- Placed at the end of the document so the pages load faster -->"
