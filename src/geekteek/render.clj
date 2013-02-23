@@ -40,17 +40,14 @@
 
 (defn render-menu
   "Given a map of links, render a compojure list of menu entries."
-  ([entries]
-     (->> entries
-          keys
-          (map
-           (fn [link]
-             [:li [:a {:href link} (entries link)]]))))
-  ([class entries]
-     (->> entries
-          render-menu
-          (cons class)
-          vec)))
+  [class entries]
+  (->> entries
+       keys
+       (map
+        (fn [link]
+          [:li [:a {:href link} (entries link)]]))
+       (cons class)
+       vec))
 
 (defn render-data-as-html-table
   [data]
@@ -92,13 +89,13 @@
 
      [:div.container-fluid
       [:div.row-fluid
+
        [:div.span3
         [:div.well.sidebar-nav
          (render-left-menu {"#"        "Home"
                             "#about"   "About"
-                            "#contact" "Contact"})]
-        "<!--/.well -->"]
-       "<!--/span-->"
+                            "#contact" "Contact"})]]
+
        [:div.span9
         [:form.form-inline {:method "get"}
          [:input.input-large {:placeholder "type what you like"
@@ -106,14 +103,12 @@
                               :value ""
                               :name "pref"}]
          [:button.btn {:type "submit"} "Save"]]
-        (render-data-as-html-table (b/data))]
-       "<!-- span9 -->"]
-      "<!-- row-fluid -->"
+        (render-data-as-html-table (b/data))]]
 
       [:hr]
       [:footer [:p "© GeekTeek 2013"]]] "<!-- container-fluid -->"
 
-     "<!-- Le javascript\n  ==================================================-->"
+     "<!-- javascript\n  ==================================================-->"
      "<!-- Placed at the end of the document so the pages load faster -->"
      [:script {:src "http://code.jquery.com/jquery-latest.js"}]
      [:script {:src "bootstrap/js/bootstrap.min.js"}]]]))
