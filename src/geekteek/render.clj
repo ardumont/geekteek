@@ -28,8 +28,8 @@
      [:meta {:charset "utf-8"}]
      [:title "GeekTeek"]
      [:meta {:content "width=device-width, initial-scale=1.0", :name "viewport"}]
-     [:meta {:content "", :name "description"}]
-     [:meta {:content "", :name "author"}]
+     [:meta {:content "Geetik, Meetic for Geeks!", :name "description"}]
+     [:meta {:content "ardumont", :name "author"}]
      "<!-- Le styles -->"
      [:link {:media "screen", :rel "stylesheet", :href "bootstrap/css/bootstrap.min.css"}]
      [:style "\n  body {\n                padding-top: 60px; /* 60px to make the container go all\n                                 ; the way to the bottom of the topbar\n; */\n        }\n  "]
@@ -70,21 +70,19 @@
        [:div.span9
         [:form.form-inline {:method "get"}
          [:input {:type "hidden"
-                  :name "entity"
-                  :value "current-entity"}]
+                  :name "pseudo"
+                  :value "current-pseudo"}]
          [:input.input-large {:placeholder "http://server:port/context"
                               :type "text"
                               :value "pseudo"
                               :name "pseudo"}]
          [:button.btn {:type "submit"} "Save"]]
-#_        (when (not= url "favicon.ico")
-            (s/replace-first (execute-search current-entity url flags) "<table>" "<table class=\"table table-striped table-bordered\">"))]
+        "Some data to display"]
        "<!-- span9 -->"]
       "<!-- row-fluid -->"
 
       [:hr]
-      [:footer [:p "© GeekTeek 2013"]]
-      ] "<!-- container-fluid -->"
+      [:footer [:p "© GeekTeek 2013"]]] "<!-- container-fluid -->"
 
      "<!-- Le javascript\n  ==================================================-->"
      "<!-- Placed at the end of the document so the pages load faster -->"
