@@ -15,13 +15,27 @@
             [geekteek.render                      :as r]))
 
 (defroutes app
+  ;; repl connection
   (ANY "/repl" {:as req}
        (m/drawbridge req))
+
+  ;; Main page
   (GET "/" []
        {:status 200
         :headers {"Content-Type" "text/html"}
         :body (r/render-main-page)})
+
+  ;; post submission to this main page
+  (POST "/" {:as req}
+        (let [app-state req]
+          {:status 201
+           :headers {"Content-Type" "text/html"}
+           :body (r/render-main-page app-state)}))
+
+  ;; serve static resources
   (resources "/")
+
+  ;; not found
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 
