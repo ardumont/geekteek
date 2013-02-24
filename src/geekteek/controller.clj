@@ -62,7 +62,8 @@
          :menu  menu
          :form? true
          :theme :spacelab
-         :data  (m/data-people (m/data))}))
+         :data  (-> (m/data)
+                     m/data-people)}))
 
   ;; post submission to this main page
   (POST "/" {:as req}
@@ -74,7 +75,9 @@
             :form? true
             :prefs prefs
             :theme (get-in req [:form-params "theme"])
-            :data  (m/data-people (m/data) prefs)})))
+            :data  (-> (m/data)
+                        m/data-people
+                       (m/filter-data-by-prefs prefs))})))
 
   ;; serve static resources
   (resources "/")

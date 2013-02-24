@@ -14,21 +14,29 @@
 
 (defn data-people
   "Retrieve the data then add some informations then optionally filter according to the user's preferences."
-  ([data]
-     (->> data
-          (map
-           (fn [{:keys [NOM PRENOM EMAIL] :as m}]
-             (-> m
-                 (assoc :gravatar (gravatar EMAIL))
-                 (assoc :NOM (str NOM " " PRENOM))
-                 (dissoc :PRENOM)
-                 (dissoc :EMAIL))))))
-  ([data prefs]
-     (->> (data-people data)
-          (filter (fn [{:keys [LIKE1 LIKE2 LIKE3]}]
-                    (->> [LIKE1 LIKE2 LIKE3]
-                         (map s/lower-case)
-                         (some #{(s/lower-case prefs)})))))))
+  [data]
+  (->> data
+       (map
+        (fn [{:keys [NOM PRENOM EMAIL] :as m}]
+          (-> m
+              (assoc :gravatar (gravatar EMAIL))
+              (assoc :NOM (str NOM " " PRENOM))
+              (dissoc :PRENOM)
+              (dissoc :EMAIL))))))
+
+(defn filter-data-by-prefs
+  "Filter data by user's preferences"
+  [data prefs]
+  (let [lprefs (s/lower-case prefs)
+        regexp (->> lprefs
+                    (format "#\"%s\"")
+                    load-string)]
+    (->> data
+         (filter (fn [{:keys [LIKE1 LIKE2 LIKE3]}]
+                   (->> [LIKE1 LIKE2 LIKE3]
+                        (map s/lower-case)
+                        (s/join " ")
+                        (re-seq regexp)))))))
 
 (defn data-about
   "The about data"
