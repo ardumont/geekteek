@@ -24,7 +24,7 @@
                  (dissoc :PRENOM)
                  (dissoc :EMAIL))))))
   ([data prefs]
-     (->> data
+     (->> (data-people data)
           (filter (fn [{:keys [LIKE1 LIKE2 LIKE3]}]
                     (->> [LIKE1 LIKE2 LIKE3]
                          (map s/lower-case)
