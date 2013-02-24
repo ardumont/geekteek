@@ -1,7 +1,7 @@
 (ns geekteek.view_test
   "Namespace for the html rendering"
   (:use [midje.sweet]
-        [geekteek.render]))
+        [geekteek.view]))
 
 (fact
  (render-menu :some-class {"#"        "Home"
