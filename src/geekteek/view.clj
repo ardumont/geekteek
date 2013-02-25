@@ -71,21 +71,6 @@
        (cons class)
        vec))
 
-(defn render-data-as-html-table
-  [data]
-  (s/replace-first
-   ;; data working
-   (->> data
-        (map
-         (fn [{:keys [gravatar] :as m}]
-           (assoc m :gravatar (h/html [:img {:src gravatar}]))))
-        (d/table
-         ^{:format d/html}
-         [:gravatar :NOM :LIKE1 :LIKE2 :LIKE3 :HATE1 :HATE2 :VILLE]))
-   ;; reworking css
-   "<table>"
-   "<table class=\"table table-hover table-condensed table-striped table-bordered\">"))
-
 (defn- render-navigation-bar
   "Render the main navigation bar - at the top"
   [{:keys [menu title]}]
@@ -126,6 +111,42 @@
        (cons :div)
        vec))
 
+(defn render-data-as-html-table
+  [data]
+  (s/replace-first
+   ;; data working
+   (->> data
+        (map
+         (fn [{:keys [gravatar] :as m}]
+           (assoc m :gravatar (h/html [:img {:src gravatar}]))))
+        (d/table
+         ^{:format d/html}
+         [:gravatar :NOM :LIKE1 :LIKE2 :LIKE3 :HATE1 :HATE2 :VILLE]))
+   ;; reworking css
+   "<table>"
+   "<table class=\"table table-hover table-condensed table-striped table-bordered\">"))
+
+(defmulti render-data
+  (fn [{:keys [form?]}] form?))
+
+(defmethod render-data true
+  [{:keys [data prefs] :as app-data}]
+  ;; data submission
+  (list
+   [:form.form-inline {:method "post"}
+    (app-data->hidden app-data)
+
+    [:input.input-large {:placeholder "Preferences"
+                         :type "text"
+                         :value prefs
+                         :name "prefs"}]
+    [:button.btn {:type "submit"} "Save"]]
+   (render-data-as-html-table data)))
+
+(defmethod render-data :default
+  [{:keys [href label]} app-data]
+  (h/html [:a {:href href}] label))
+
 (defn render-main-page
   "Render the main page"
   [{:keys [data form? menu prefs title] :as app-data}]
@@ -142,20 +163,7 @@
 
        ;; data
        [:div.span9
-        (if form?
-          ;; data submission
-          (list
-            [:form.form-inline {:method "post"}
-             (app-data->hidden app-data)
-
-             [:input.input-large {:placeholder "Preferences"
-                                  :type "text"
-                                  :value prefs
-                                  :name "prefs"}]
-             [:button.btn {:type "submit"} "Save"]]
-            (render-data-as-html-table data))
-          ;; simply display data
-          (h/html [:a {:href (:href data)}] (:label data)))]]
+        (render-data app-data)]]
 
       [:hr]
       [:footer [:p (str "&copy; " title " 2013")]]]
